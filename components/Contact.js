@@ -2,6 +2,26 @@ import React from "react";
 import userData from "@constants/data";
 
 export default function Contact() {
+  const sendMessage = async (event) => {
+    event.preventDefault();
+    const emailId = event.target.email.value;
+    const userName = event.target.name.value;
+    const message = event.target.message.value;
+    await fetch("https://o2hio9mp2e.execute-api.ap-south-1.amazonaws.com/default/newsletter/subscribe", {
+				method: 'POST',
+				mode: "cors",
+				'Cache-Control': 'no-cache',
+				Accept: "*/*",
+				"Accept-Encoding": "gzip, deflate, br",
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ emailId, userName, message }),
+				
+			});
+  }
+
   return (
     <section>
       <div className="max-w-6xl mx-auto h-48 bg-white dark:bg-gray-800 antialiased">
@@ -21,7 +41,7 @@ export default function Contact() {
               </p>
             </header>
             <div className="icons-container inline-flex flex-col my-20">
-              <div className="flex flex-row items-center space-x-6 rounded-md border border-[#02044A] hover:border hover:border-blue-500 p-4">
+              {/* <div className="flex flex-row items-center space-x-6 rounded-md border border-[#02044A] hover:border hover:border-blue-500 p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -38,7 +58,7 @@ export default function Contact() {
                 <p className="text-gray-50 font-light text-sm">
                   {userData.phone}
                 </p>
-              </div>
+              </div> */}
               <div className="flex flex-row items-center space-x-6 rounded-md border border-[#02044A] hover:border hover:border-blue-500 p-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +161,7 @@ export default function Contact() {
               </a>
             </div>
           </div>
-          <form className="form rounded-lg bg-white p-4 flex flex-col">
+          <form className="form rounded-lg bg-white p-4 flex flex-col" onSubmit={sendMessage}>
             <label htmlFor="name" className="text-sm text-gray-600 mx-4">
               {" "}
               Your Name
